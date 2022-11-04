@@ -1,4 +1,4 @@
-package com.algalog.algaworks.model;
+package com.algalog.algaworks.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
