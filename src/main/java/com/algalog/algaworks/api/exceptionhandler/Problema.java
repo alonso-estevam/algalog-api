@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class Problema {
 	
-	private Integer status; // opcional!
+	private Integer status;
 	private LocalDateTime dataHora;
 	private String titulo;
 	private List<Campo> campos;
