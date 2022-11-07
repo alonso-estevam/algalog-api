@@ -1,8 +1,11 @@
 package com.algalog.algaworks.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algalog.algaworks.api.assembler.OcorrenciaAssembler;
 import com.algalog.algaworks.api.model.OcorrenciaModel;
 import com.algalog.algaworks.api.model.request.OcorrenciaInput;
+import com.algalog.algaworks.domain.model.Entrega;
 import com.algalog.algaworks.domain.model.Ocorrencia;
+import com.algalog.algaworks.domain.service.BuscaEntregaService;
 import com.algalog.algaworks.domain.service.RegistroOcorrenciaService;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +28,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/entregas/{entregaId}/ocorrencias")
 public class OcorrenciaController {
 	
+	private BuscaEntregaService buscaEntregaService;
 	private RegistroOcorrenciaService registroOcorrenciaService;
 	private OcorrenciaAssembler ocorrenciaAssembler;
 	
@@ -33,5 +39,12 @@ public class OcorrenciaController {
 		Ocorrencia ocorrenciaRegistrada = registroOcorrenciaService.registrar(entregaId, ocorrenciaInput.getDescricao());
 		
 		return ocorrenciaAssembler.toModel(ocorrenciaRegistrada);
+	}
+	
+	@GetMapping
+	public List<OcorrenciaModel> listar(@PathVariable Long entregaId){
+		Entrega entrega = buscaEntregaService.buscar(entregaId);
+		
+		return ocorrenciaAssembler.toCollectionModel(entrega.getOcorrencias());
 	}
 }
